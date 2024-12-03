@@ -217,7 +217,51 @@ view model =
                         ]
                     , case Array.get model.currentStep model.steps of
                         Just state ->
-                            text ""  -- Reemplaza todo el bloque 'ul' con esto
+                            let
+                                activeNodeString = Basics.toString state.activePoint.nodeId
+
+                                activeEdgeString =
+                                    case state.activePoint.edge of
+                                        Just ( edge, steps ) ->
+                                            fromChar edge
+
+                                        Nothing ->
+                                            "none"
+
+                                activeLengthString =
+                                    case state.activePoint.edge of
+                                        Just ( edge, steps ) ->
+                                            Basics.toString steps
+
+                                        Nothing ->
+                                            "0"
+
+                                remainderString = Basics.toString (state.remainder - 1)
+                            in
+                                ul
+                                    [ id "algorithm-state" ]
+                                    [ li
+                                        []
+                                        [ span [] [ text "active_node:" ]
+                                        , span [ id "var-active-node" ] [ text activeNodeString ]
+                                        ]
+                                    , li
+                                        []
+                                        [ span [] [ text "active_edge:" ]
+                                        , span [ id "var-active-edge" ] [ text activeEdgeString ]
+                                        ]
+                                    , li
+                                        []
+                                        [ span [] [ text "active_length:" ]
+                                        , span [ id "var-active-length" ] [ text activeLengthString ]
+                                        ]
+                                    , li
+                                        []
+                                        [ span [] [ text "remainder:" ]
+                                        , span [ id "var-remainder" ] [ text remainderString ]
+                                        ]
+                                    ]
+
                         Nothing ->
                             text ""
                     ]
